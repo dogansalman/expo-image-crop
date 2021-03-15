@@ -8,20 +8,19 @@ import {
     Text,
     SafeAreaView,
     TouchableOpacity,
-    YellowBox,
+    LogBox,
 } from 'react-native'
 import * as ImageManipulator from 'expo-image-manipulator'
 import * as FileSystem from 'expo-file-system'
 import PropTypes from 'prop-types'
-import AutoHeightImage from 'react-native-auto-height-image'
 import { MaterialIcons } from '@expo/vector-icons';
 import { isIphoneX } from 'react-native-iphone-x-helper'
 import ImageCropOverlay from './ImageCropOverlay'
 
 const { width } = Dimensions.get('window')
 
-YellowBox.ignoreWarnings(['componentWillReceiveProps', 'componentWillUpdate', 'componentWillMount'])
-YellowBox.ignoreWarnings([
+LogBox.ignoreWarnings(['componentWillReceiveProps', 'componentWillUpdate', 'componentWillMount'])
+LogBox.ignoreWarnings([
     'Warning: componentWillMount is deprecated',
     'Warning: componentWillReceiveProps is deprecated',
     'Module RCTImageLoader requires',
@@ -453,14 +452,8 @@ class ExpoImageManipulator extends Component {
                         // scrollEnabled={cropMode ? false : true}
                         // pinchGestureEnabled={cropMode ? false : pinchGestureEnabled}
                     >
-                        <AutoHeightImage
-                            style={{ backgroundColor: 'black' }}
-                            source={{ uri }}
-                            resizeMode={imageRatio >= 1 ? 'contain' : 'contain'}
-                            width={width}
-                            height={originalHeight}
-                            // onLayout={this.calculateMaxSizes}
-                        />
+                        <Image source={{uri}} resizeMode={'contain'}  width={width} height={originalHeight} style={{backgroundColor: 'black'}}>
+                        </Image>
                         {!!cropMode && (
                             <ImageCropOverlay
                                 onLayoutChanged={(top, left, w, height) => {
