@@ -400,7 +400,7 @@ class ExpoImageManipulator extends Component {
                                                     </TouchableOpacity>
                                                     <TouchableOpacity onPress={() => { onPictureChoosed({ uri, base64 }); this.onToggleModal() }}
                                                         style={{
-                                                            marginLeft: 10, width: 60, height: 32, alignItems: 'center', justifyContent: 'center',
+                                                            marginLeft: 10, width: 80, height: 32, alignItems: 'center', justifyContent: 'center',
                                                         }}
                                                     >
                                                         <Text style={{ fontWeight: '500', color: 'white', fontSize: 18 }}>{btnTexts.done}</Text>
