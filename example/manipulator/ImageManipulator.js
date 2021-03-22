@@ -33,6 +33,7 @@ class ExpoImageManipulator extends Component {
             cropMode: false,
             processing: false,
             zoomScale: 1,
+            loading: true
         }
 
         this.scrollOffset = 0
@@ -104,6 +105,8 @@ class ExpoImageManipulator extends Component {
         onToggleModal()
         this.setState({ cropMode: false })
     }
+
+  
 
     onCropImage = () => {
         this.setState({ processing: true })
@@ -317,7 +320,6 @@ class ExpoImageManipulator extends Component {
         const cropInitialTop = (originalHeight - cropHeight) / 2.0
         const cropInitialLeft = (width - cropWidth) / 2.0
 
-
         if (this.currentSize.width === 0 && cropMode) {
             this.currentSize.width = cropWidth
             this.currentSize.height = cropHeight
@@ -349,7 +351,7 @@ class ExpoImageManipulator extends Component {
                         {!cropMode
                             ? (
                                 <View style={{ flexDirection: 'row' }}>
-                                    <TouchableOpacity onPress={() => this.onToggleModal()}
+                                    <TouchableOpacity disabled={this.state.loading} onPress={() => this.onToggleModal()}
                                         style={{
                                             width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
                                         }}
@@ -357,7 +359,7 @@ class ExpoImageManipulator extends Component {
                                         <MaterialIcons size={24} name="arrow-left" color="white" />
                                     </TouchableOpacity>
                                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                        <TouchableOpacity onPress={() => this.setState({ cropMode: true })}
+                                        <TouchableOpacity disabled={this.state.loading} onPress={() => this.setState({ cropMode: true })}
                                             style={{
                                                 marginLeft: 10, width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
                                             }}
@@ -369,14 +371,14 @@ class ExpoImageManipulator extends Component {
                                             && (
                                                 <View style={{ flexDirection: 'row' }}>
 
-                                                    <TouchableOpacity onPress={() => this.onRotateImage()}
+                                                    <TouchableOpacity disabled={this.state.loading} onPress={() => this.onRotateImage()}
                                                         style={{
                                                             marginLeft: 10, width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
                                                         }}
                                                     >
                                                         <MaterialIcons size={20} name="rotate-left" color="white" />
                                                     </TouchableOpacity>
-                                                    <TouchableOpacity onPress={() => this.onFlipImage('vertical')}
+                                                    <TouchableOpacity disabled={this.state.loading} onPress={() => this.onFlipImage('vertical')}
                                                         style={{
                                                             marginLeft: 10, width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
                                                         }}
@@ -391,14 +393,14 @@ class ExpoImageManipulator extends Component {
                                             && (
                                                 <View style={{ flexDirection: 'row' }}>
 
-                                                    <TouchableOpacity onPress={() => this.onFlipImage('horizontal')}
+                                                    <TouchableOpacity disabled={this.state.loading} onPress={() => this.onFlipImage('horizontal')}
                                                         style={{
                                                             marginLeft: 10, width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
                                                         }}
                                                     >
                                                         <MaterialIcons size={20} name="flip" color="white" />
                                                     </TouchableOpacity>
-                                                    <TouchableOpacity onPress={() => { onPictureChoosed({ uri, base64 }); this.onToggleModal() }}
+                                                    <TouchableOpacity  disabled={this.state.loading} onPress={() => { onPictureChoosed({ uri, base64 }); this.onToggleModal() }}
                                                         style={{
                                                             marginLeft: 10, width: 80, height: 32, alignItems: 'center', justifyContent: 'center',
                                                         }}
@@ -413,14 +415,14 @@ class ExpoImageManipulator extends Component {
                             )
                             : (
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <TouchableOpacity onPress={() => this.setState({ cropMode: false })}
+                                    <TouchableOpacity disabled={this.state.loading} onPress={() => this.setState({ cropMode: false })}
                                         style={{
                                             width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
                                         }}
                                     >
                                         <MaterialIcons size={24} name="arrow-left" color="white" />
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => this.onCropImage()}
+                                    <TouchableOpacity disabled={this.state.loading} onPress={() => this.onCropImage()}
                                         style={{
                                             marginRight: 10, alignItems: 'flex-end', flex: 1,
                                         }}
@@ -452,7 +454,30 @@ class ExpoImageManipulator extends Component {
                         // scrollEnabled={cropMode ? false : true}
                         // pinchGestureEnabled={cropMode ? false : pinchGestureEnabled}
                     >
-                        <Image source={{uri}} resizeMode={'contain'}  width={width} height={originalHeight} style={{backgroundColor: 'black'}}>
+                       <Image  
+                            fadeDuration={0}
+                            source={{uri}}
+                            resizeMode={'contain'}
+                            width={width} height={originalHeight} 
+                            style={{backgroundColor: 'black'}}
+                            onLoad={() => {
+                                console.log('onLoad')
+
+                                this.setState({loading: true})
+                            }}
+                            onLoadStart={() => {
+                                this.setState({loading: true})
+                                console.log('onLoadStart')
+                            }}
+                            onLoadEnd={() => {
+                                //
+                                setTimeout(() => {
+                                    console.log('onLoadEnd')
+                                    this.setState({loading: false})
+                                }, 1000)
+                                
+                            }}
+                            >
                         </Image>
                         {!!cropMode && (
                             <ImageCropOverlay
