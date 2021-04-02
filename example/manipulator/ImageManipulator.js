@@ -9,6 +9,7 @@ import {
     SafeAreaView,
     TouchableOpacity,
     LogBox,
+    TextInput
 } from 'react-native'
 import * as ImageManipulator from 'expo-image-manipulator'
 import * as FileSystem from 'expo-file-system'
@@ -33,7 +34,8 @@ class ExpoImageManipulator extends Component {
             cropMode: false,
             processing: false,
             zoomScale: 1,
-            loading: true
+            loading: true,
+            description: ''
         }
 
         this.scrollOffset = 0
@@ -302,6 +304,7 @@ class ExpoImageManipulator extends Component {
         const {
             uri,
             base64,
+            description,
             cropMode,
             processing,
         } = this.state
@@ -400,7 +403,7 @@ class ExpoImageManipulator extends Component {
                                                     >
                                                         <MaterialIcons size={20} name="flip" color="white" />
                                                     </TouchableOpacity>
-                                                    <TouchableOpacity  disabled={this.state.loading} onPress={() => { onPictureChoosed({ uri, base64 }); this.onToggleModal() }}
+                                                    <TouchableOpacity  disabled={this.state.loading} onPress={() => { onPictureChoosed({ uri, base64, description }); this.onToggleModal() }}
                                                         style={{
                                                             marginLeft: 10, width: 80, height: 32, alignItems: 'center', justifyContent: 'center',
                                                         }}
@@ -498,6 +501,17 @@ class ExpoImageManipulator extends Component {
                             />
                         )
                         }
+
+                        <TextInput multiline
+                                underlineColorAndroid="transparent"
+                                placeholder="Birşeyler yazın..."
+                                placeholderTextColor="grey"
+                                numberOfLines={4} 
+                                style={{color:'#666', textAlignVertical:'top', backgroundColor:'#000000a6', padding:10, height:100, justifyContent: "flex-start", marginTop: - 100}}
+                                onChangeText={(text) => this.setState({desc: text})} ></TextInput>
+                          {/* <View style={{height:100, flex:1, backgroundColor:'#fff', borderColor: '#f5f7fa', borderWidth: 1, padding: 5}}>
+                          
+                        </View> */}
                     </ScrollView>
                 </View>
             </Modal>
@@ -508,7 +522,7 @@ class ExpoImageManipulator extends Component {
 export default ExpoImageManipulator
 
 ExpoImageManipulator.defaultProps = {
-    onPictureChoosed: ({ uri, base64 }) => console.log('URI:', uri, base64),
+    onPictureChoosed: ({ uri, base64, description }) => console.log('URI:', uri, base64, description),
     borderColor: '#a4a4a4',
     btnTexts: {
         crop: 'Crop',
