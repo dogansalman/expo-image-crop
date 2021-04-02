@@ -508,10 +508,7 @@ class ExpoImageManipulator extends Component {
                                 placeholderTextColor="grey"
                                 numberOfLines={4} 
                                 style={{color:'#666', textAlignVertical:'top', backgroundColor:'#000000a6', padding:10, height:100, justifyContent: "flex-start", marginTop: - 100}}
-                                onChangeText={(text) => this.setState({desc: text})} ></TextInput>
-                          {/* <View style={{height:100, flex:1, backgroundColor:'#fff', borderColor: '#f5f7fa', borderWidth: 1, padding: 5}}>
-                          
-                        </View> */}
+                                onChangeText={(text) => this.setState({description: text})} ></TextInput>
                     </ScrollView>
                 </View>
             </Modal>
