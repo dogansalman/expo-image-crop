@@ -502,13 +502,13 @@ class ExpoImageManipulator extends Component {
                         )
                         }
 
-                        <TextInput multiline
+                       { (!this.state.cropMode && this.props.showDescription) &&  <TextInput multiline
                                 underlineColorAndroid="transparent"
                                 placeholder="Birşeyler yazın..."
                                 placeholderTextColor="grey"
                                 numberOfLines={4} 
                                 style={{color:'#666', textAlignVertical:'top', backgroundColor:'#000000a6', padding:10, height:100, justifyContent: "flex-start", marginTop: - 100}}
-                                onChangeText={(text) => this.setState({description: text})} ></TextInput>
+                                onChangeText={(text) => this.setState({description: text})} ></TextInput>}
                     </ScrollView>
                 </View>
             </Modal>
