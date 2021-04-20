@@ -464,21 +464,13 @@ class ExpoImageManipulator extends Component {
                             width={width} height={originalHeight} 
                             style={{backgroundColor: 'black'}}
                             onLoad={() => {
-                                console.log('onLoad')
-
-                                this.setState({loading: true})
+                                if(uri) this.setState({loading: true})
                             }}
                             onLoadStart={() => {
-                                this.setState({loading: true})
-                                console.log('onLoadStart')
+                                if(uri) this.setState({loading: true})
                             }}
                             onLoadEnd={() => {
-                                //
-                                setTimeout(() => {
-                                    console.log('onLoadEnd')
-                                    this.setState({loading: false})
-                                }, 1000)
-                                
+                                if(uri)  this.setState({loading: false})
                             }}
                             >
                         </Image>
