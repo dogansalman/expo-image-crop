@@ -9,7 +9,8 @@ import {
     SafeAreaView,
     TouchableOpacity,
     LogBox,
-    TextInput
+    TextInput,
+    Platform
 } from 'react-native'
 import * as ImageManipulator from 'expo-image-manipulator'
 import * as FileSystem from 'expo-file-system'
@@ -34,7 +35,7 @@ class ExpoImageManipulator extends Component {
             cropMode: false,
             processing: false,
             zoomScale: 1,
-            loading: true,
+            loading: Platform.OS == 'ios' ? false : true,
             description: ''
         }
 
@@ -333,7 +334,7 @@ class ExpoImageManipulator extends Component {
         return (
             <Modal
                 animationType="slide"
-                transparent
+                transparent={true}
                 visible={isVisible}
                 hardwareAccelerated
                 onRequestClose={() => {
@@ -440,10 +441,10 @@ class ExpoImageManipulator extends Component {
                         }
                     </ScrollView>
                 </SafeAreaView>
-                <View style={{ flex: 1, backgroundColor: 'black', width: Dimensions.get('window').width }}>
+                <View style={{ flex: 1, backgroundColor: '#000', width: Dimensions.get('window').width }}>
                     <ScrollView
                         style={{ position: 'relative', flex: 1 }}
-                        contentContainerStyle={{ backgroundColor: 'black' }}
+                        contentContainerStyle={{ backgroundColor: 'black', justifyContent:'flex-start' }}
                         maximumZoomScale={5}
                         minimumZoomScale={0.5}
                         onScroll={this.onHandleScroll}
@@ -457,12 +458,8 @@ class ExpoImageManipulator extends Component {
                         // scrollEnabled={cropMode ? false : true}
                         // pinchGestureEnabled={cropMode ? false : pinchGestureEnabled}
                     >
-                       <Image  
-                            fadeDuration={0}
-                            source={{uri}}
-                            resizeMode={'contain'}
-                            width={width} height={originalHeight} 
-                            style={{backgroundColor: 'black'}}
+
+                        <Image resizeMode={'contain'}  style={{width: width, height: originalHeight}} source={{uri}}
                             onLoad={() => {
                                 if(uri) this.setState({loading: true})
                             }}
@@ -472,8 +469,8 @@ class ExpoImageManipulator extends Component {
                             onLoadEnd={() => {
                                 if(uri)  this.setState({loading: false})
                             }}
-                            >
-                        </Image>
+                        />
+             
                         {!!cropMode && (
                             <ImageCropOverlay
                                 onLayoutChanged={(top, left, w, height) => {
